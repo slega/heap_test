@@ -1,0 +1,12 @@
+{
+  "license": {
+    "owner": "XXX",
+    "type": "development",
+    "entity_type": "contact",
+    "hubspot_id": "YYY"
+  },
+  "CLOUD_ORG_ID": "ZZZ",
+  "IS_CLOUD_DEPLOYMENT": true,
+  "HEAP_APP_ID": "YOUR_HEAP_APP_ID",
+  "USER_EMAIL": "test@user.io"
+}

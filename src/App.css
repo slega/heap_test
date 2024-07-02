@@ -1,0 +1,107 @@
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f0f2f5;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.App {
+  max-width: 600px;
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h1 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+p {
+  color: #555;
+  margin-bottom: 30px;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 15px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 10px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.message {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 5px;
+  position: relative;
+  max-width: 90%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.message.success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.message.error {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.message-content {
+  flex-grow: 1;
+}
+
+.message .close-container {
+  display: flex;
+  align-items: center;
+}
+
+.message .close {
+  width: 20px;
+  height: 20px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  position: relative;
+}
+
+.message .close::before,
+.message .close::after {
+  content: '';
+  position: absolute;
+  width: 2px;
+  height: 20px;
+  background-color: currentColor;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.message .close::before {
+  transform: rotate(45deg);
+}
+
+.message .close::after {
+  transform: rotate(-45deg);
+}
