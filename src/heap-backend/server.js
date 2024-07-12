@@ -18,16 +18,18 @@ const config = {
         entity_type: process.env.REACT_APP_ENTITY_TYPE,
         hubspot_id: process.env.REACT_APP_HUBSPOT_ID
     },
-    CLOUD_ORG_ID: process.env.REACT_APP_CLOUD_ORG_ID,
-    IS_CLOUD_DEPLOYMENT: process.env.REACT_APP_IS_CLOUD_DEPLOYMENT === 'true',
-    HEAP_APP_ID: process.env.REACT_APP_HEAP_APP_ID,
-    USER_EMAIL: process.env.REACT_APP_USER_EMAIL
+    cloud_org_id: process.env.REACT_APP_CLOUD_ORG_ID,
+    is_cloud_deployment: process.env.REACT_APP_IS_CLOUD_DEPLOYMENT === 'true',
+    heap_app_id: process.env.REACT_APP_HEAP_APP_ID,
+    user_email: process.env.REACT_APP_USER_EMAIL,
+    version: process.env.REACT_APP_VERSION
 };
 
 const handleProperties = (buttonName) => {
     const properties = {
         license_id: config.license.owner,
         license_type: config.license.type,
+        app_version: config.version
     };
 
     if (buttonName) {
@@ -36,14 +38,14 @@ const handleProperties = (buttonName) => {
         properties.event_name = 'periodic-event';
     }
 
-    if (config.license.entity_type === 'contact' || config.IS_CLOUD_DEPLOYMENT) {
+    if (config.license.entity_type === 'contact' || config.is_cloud_deployment) {
         properties.hubspot_contact_id = config.license.hubspot_id;
     } else if (config.license.entity_type === 'company') {
         properties.hubspot_company_id = config.license.hubspot_id;
     }
 
-    if (config.IS_CLOUD_DEPLOYMENT) {
-        properties.cloud_org_id = config.CLOUD_ORG_ID;
+    if (config.is_cloud_deployment) {
+        properties.cloud_org_id = config.cloud_org_id;
     }
 
     return properties;
@@ -62,7 +64,7 @@ app.post('/api/button', (req, res) => {
 
     // Send Heap server-side event
     axios.post('https://heapanalytics.com/api/track', {
-        app_id: config.HEAP_APP_ID,
+        app_id: config.heap_app_id,
         identity: userId,
         event: 'server-side-event',
         properties: properties,
@@ -83,9 +85,9 @@ const sendPeriodicEvent = () => {
 
     // Send Heap periodic event
     axios.post('https://heapanalytics.com/api/track', {
-        app_id: config.HEAP_APP_ID,
+        app_id: config.heap_app_id,
         identity: config.license.owner,
-        event: 'periodic_event',
+        event: 'usage_reporting_event',
         properties: properties
     })
         .then(() => {

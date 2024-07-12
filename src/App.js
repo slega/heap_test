@@ -16,29 +16,32 @@ const App = () => {
             entity_type: process.env.REACT_APP_ENTITY_TYPE,
             hubspot_id: process.env.REACT_APP_HUBSPOT_ID
         },
-        CLOUD_ORG_ID: process.env.REACT_APP_CLOUD_ORG_ID,
-        IS_CLOUD_DEPLOYMENT: process.env.REACT_APP_IS_CLOUD_DEPLOYMENT === 'true',
-        HEAP_APP_ID: process.env.REACT_APP_HEAP_APP_ID,
-        USER_EMAIL: process.env.REACT_APP_USER_EMAIL
+        cloud_org_id: process.env.REACT_APP_CLOUD_ORG_ID,
+        is_cloud_deployment: process.env.REACT_APP_IS_CLOUD_DEPLOYMENT === 'true',
+        heap_app_id: process.env.REACT_APP_HEAP_APP_ID,
+        user_email: process.env.REACT_APP_USER_EMAIL,
+        app_version: process.env.REACT_APP_VERSION
     }), []);
 
     useEffect(() => {
         // Check if window.heap is available
         if (window.heap) {
-            const userId = Base64.stringify(sha256(config.USER_EMAIL));
+            const userId = Base64.stringify(sha256(config.user_email));
             window.heap.identify(userId);
 
             window.heap.addUserProperties({
                 license_id: config.license.owner,
                 license_type: config.license.type,
+                app_version: config.version
             });
 
             window.heap.addEventProperties({
                 license_id: config.license.owner,
                 license_type: config.license.type,
+                app_version: config.version
             });
 
-            if (config.license.entity_type === 'contact' || config.IS_CLOUD_DEPLOYMENT) {
+            if (config.license.entity_type === 'contact' || config.is_cloud_deployment) {
                 window.heap.addUserProperties({
                     hubspot_contact_id: config.license.hubspot_id,
                 });
@@ -56,13 +59,13 @@ const App = () => {
                 });
             }
 
-            if (config.IS_CLOUD_DEPLOYMENT) {
+            if (config.is_cloud_deployment) {
                 window.heap.addUserProperties({
-                    cloud_org_id: config.CLOUD_ORG_ID,
+                    cloud_org_id: config.cloud_org_id,
                 });
 
                 window.heap.addEventProperties({
-                    cloud_org_id: config.CLOUD_ORG_ID,
+                    cloud_org_id: config.cloud_org_id,
                 });
             }
         } else {
@@ -118,7 +121,7 @@ const App = () => {
         <div className="App">
             <h1>This is Heap test</h1>
             <p>
-                This PoC records client-side and server-side events using Heap. Open Live datafeed in Heap and click on each button to see how it works.
+                This PoC emits client-side and server-side events using Heap. Open the Live data feed in Heap and click on each button to see how it works.
             </p>
             <button onClick={() => handleButtonClick('Test client-side event')}>Test client-side event</button>
             <button onClick={() => handleButtonClick('Test server-side event')}>Test server-side event</button>
